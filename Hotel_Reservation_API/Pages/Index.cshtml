@@ -1,0 +1,247 @@
+﻿@page
+@{}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Hotel Reservation System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div>
+        <!-- Navigation bar with Insert details button-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+            <a class="navbar-brand" href="#">Hotel Reservation System</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <button class="btn btn-success" data-toggle="modal" data-target="#insertDetails">Insert Reservation Details</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <br />
+        <!-- Main Area where data will display-->
+        <div class="container">
+            <div class="row" id="ReservationDetailsSection"></div>
+
+        </div>
+    </div>
+    <!-- web form to insert the data-->
+    <div class="modal" tabindex="-1" role="dialog" id="insertDetails">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert New Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="CustomerName">Customer Name</label>
+                            <input type="text" class="form-control" id="CustomerName" aria-describedby="CustomerNameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="CustomerNumber">Customer Number</label>
+                            <input type="text" class="form-control" id="CustomerNumber" aria-describedby="CustomerNumberHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="HotelName">Hotel Name</label>
+                            <input type="text" class="form-control" id="HotelName" aria-describedby="HotelNameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="PricePerRoom">Room Price</label>
+                            <input type="text" class="form-control" id="PricePerRoom" aria-describedby="PricePerRoomHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="ReservationDate">Reservation Date</label>
+                            <input type="datetime-local" class="form-control" id="ReservationDate" aria-describedby="ReservationDateHelp">
+                        </div>
+                        <div class="form-group" id="result">
+                        </div>
+                        <button type="button" onclick="insert()" class="btn btn-danger">Insert</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- web form to update the data-->
+    <div class="modal" tabindex="-1" role="dialog" id="UpdateDetails">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="Edit_id" aria-describedby="Id_Help">
+                        </div>
+                        <div class="form-group">
+                            <label for="CustomerName">Customer Name</label>
+                            <input type="text" class="form-control" id="Edit_CustomerName" aria-describedby="CustomerNameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="CustomerNumber">Customer Number</label>
+                            <input type="text" class="form-control" id="Edit_CustomerNumber" aria-describedby="CustomerNumberHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="HotelName">Hotel Name</label>
+                            <input type="text" class="form-control" id="Edit_HotelName" aria-describedby="HotelNameHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="PricePerRoom">Room Price</label>
+                            <input type="text" class="form-control" id="Edit_PricePerRoom" aria-describedby="PricePerRoomHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="ReservationDate">Reservation Date</label>
+                            <input type="datetime-local" class="form-control" id="Edit_ReservationDate" aria-describedby="ReservationDateHelp">
+                        </div>
+                        <div class="form-group" id="resultUpdate">
+                        </div>
+                        <button type="button" onclick="Update()" class="btn btn-danger">Modify</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript Files-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        var uri = 'api/ReservationDetails';
+        $(document).ready(function () {
+            // Gets all data
+            $.getJSON(uri).done(function (data) {
+                $("#Main_temp").tmpl(data).appendTo("#ReservationDetailsSection");
+            });
+        });
+        function ReservationDate() {
+            $.getJSON(uri).done(function (data) {
+                $("#ReservationDetailsSection").text("");
+                $("#Main_temp").tmpl(data).appendTo("#ReservationDetailsSection");
+            });
+        }
+        //function to Insert Data
+        function insert() {
+            var _CustomerName = $('#CustomerName').val();
+            var _CustomerNumber = $('#CustomerNumber').val();
+            var _HotelName = $('#HotelName').val();
+            var _PricePerRoom = $('#PricePerRoom').val();
+            var _ReservationDate = $('#ReservationDate').val();
+
+            var ReservationDate_Object = {
+                name: _CustomerName,
+                contactNumber: _CustomerNumber,
+                hotelName: _HotelName,
+                pricePerRoom: parseFloat(_PricePerRoom),
+                reservationDate: _ReservationDate
+            };
+            $.ajax({
+                type: "POST",
+                url: uri,
+                data: JSON.stringify(ReservationDate_Object),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#result").html("Record inserted successfully");
+                ReservationDate();
+            }).fail(function (jqXHR, textStatus) {
+                $("#result").html("Record is not inserted. There is an error");
+            });
+        }
+        //function to Update Data
+        function Update() {
+            var _CustomerName = $('#Edit_CustomerName').val();
+            var _CustomerNumber = $('#Edit_CustomerNumber').val();
+            var _HotelName = $('#Edit_HotelName').val();
+            var _PricePerRoom = $('#Edit_PricePerRoom').val();
+            var _ReservationDate = $('#Edit_ReservationDate').val();
+
+            var ReservationUpdateDate_Obj = {
+                id: parseInt($('#Edit_id').val()),
+                name: _CustomerName,
+                contactNumber: _CustomerNumber,
+                hotelName: _HotelName,
+                pricePerRoom: parseFloat(_PricePerRoom),
+                reservationDate: _ReservationDate
+  };
+            $.ajax({
+                type: "PUT",
+                url: uri + "/" + $('#Edit_id').val(),
+                data: JSON.stringify(ReservationUpdateDate_Obj),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                $("#resultUpdate").html("Record updated successfully");
+                ReservationDate();
+            }).fail(function (jqXHR, textStatus) {
+                $("#resultUpdate").html("Record is not inserted. There is an error");
+            });
+        }
+        // function to remove record
+        function remove(id) {
+            var yes = confirm("Do you really want to delete this account?");
+            if (yes) {
+                $.ajax({
+                    type: "DELETE",
+                    url: uri + "/" + id,
+                }).done(function (response) {
+                    ReservationDate();
+                });
+            }
+        }
+        //function to display data in update form
+        function UpdateRecord(id) {
+            $.ajax({
+                type: "GET",
+                url: uri + "/" + id,
+                contentType: "application/json"
+            }).done(function (response) {
+                $('#Edit_id').val(response.id);
+                $('#Edit_CustomerName').val(response.name);
+                $('#Edit_CustomerNumber').val(response.contactNumber);
+                $('#Edit_HotelName').val(response.hotelName);
+                $('#Edit_PricePerRoom').val(response.pricePerRoom);
+                $('#Edit_ReservationDate').val(response.reservationDate);
+
+            });
+        }
+
+
+    </script>
+    <!--Template to display data-->
+    <script id="Main_temp" type="text/x-jquery-tmpl">
+        <div class="col-lg-4">
+            <div class="card border-secondary mb-3">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h3 class="card-title">Customer Name: ${name}</h3>
+                    <p class="card-text"><b>Contact Number:</b> ${contactNumber}</p>
+                    <p class="card-text"><b>Hotel Name:</b> ${HotelName}</p>
+                    <p class="card-text"><b>Room Price:</b> ${pricePerRoom}</p>
+                    <p class="card-text"><b>Reservation Date:</b> ${ReservationDate}</p>
+
+                    <button class="btn btn-outline-danger" onclick="UpdateRecord('${id}')" data-toggle="modal" data-target="#UpdateDetails">Update</button>
+                    <a href="#" class="btn btn-outline-dark" onclick="remove('${id}')">Delete</a>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>
+
